@@ -1,0 +1,22 @@
+{
+  "name": "hotelexpress",
+  "version": "1.0.0",
+  "description": "Hotel Express Api Test",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "debug": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mustafa Mohamed",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "express-swagger-generator": "^1.1.15"
+  },
+  "dependencies": {
+    "mongodb": "^3.3.0"
+  }
+}
