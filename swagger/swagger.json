@@ -1,0 +1,278 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API to manage a user persistence layer - https://github.com/holidayextras/culture/blob/master/recruitment/developer-API-task.md",
+    "version": "1.0.0",
+    "title": "Hotel Express API Test",
+    "termsOfService": "",
+    "contact": { "email": "mo.mustafa3@gmail.com" },
+    "license": {
+      "name": "",
+      "url": ""
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "User",
+      "description": "User Management API",
+      "externalDocs": {
+        "description": "",
+        "schema": {
+
+        }
+      }
+    }
+  ],
+  "schemes": ["http"],
+  "paths": {
+    "/user/create": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Add a new User detail",
+        "description": "",
+        "operationId": "createUserDetail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create a User detail",
+            "required": true,
+            "schema": { "$ref": "#/definitions/create" }
+          }
+        ],
+        "responses": { 
+          "200": { 
+            "schema": { "$ref": "#/definitions/successfulResponse" }
+          },
+          "500": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          } 
+        }
+      }
+    },
+    "/user/update": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update a User detail",
+        "description": "",
+        "operationId": "updateUserDetail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create a User detail",
+            "required": true,
+            "schema": { "$ref": "#/definitions/update" }
+          }
+        ],
+        "responses": { 
+          "200": { 
+            "schema": { "$ref": "#/definitions/successfulResponse" }
+          }, 
+          "400": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          }, 
+          "404": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          }, 
+          "500": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          } 
+        }
+      }
+    },
+    "/user/list": {
+      "get": {
+        "tags": ["User"],
+        "summary": "List of User detail",
+        "description": "",
+        "operationId": "listUserDetail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+        ],
+        "responses": { 
+          "200": { 
+            "schema": { 
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/user" 
+              }
+            }
+          }, 
+          "400": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          }, 
+          "404": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          }, 
+          "500": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          } 
+        }
+      }
+    },
+    "/user/list/{id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "List ID of User detail",
+        "description": "",
+        "operationId": "listIdUserDetail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "ID of User Detail",
+            "format": "string",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": { 
+          "200": { 
+            "schema": { 
+              "$ref": "#/definitions/user" 
+            }
+          }, 
+          "400": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          }, 
+          "404": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          },
+          "500": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          } 
+        }
+      }
+    },
+    "/user/delete": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete all User detail",
+        "description": "",
+        "operationId": "deleteUserDetail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+        ],
+        "responses": { 
+          "200": { 
+            "schema": { 
+              "$ref": "#/definitions/successfulResponse" 
+            }
+          },
+          "404": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          },
+          "500": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          } 
+        }
+      }
+    },
+    "/user/delete/{id}": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete ID User detail",
+        "description": "",
+        "operationId": "deleteIdUserDetail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "ID of User Detail",
+            "format": "string",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": { 
+          "200": { 
+            "schema": { 
+              "$ref": "#/definitions/successfulResponse" 
+            }
+          },
+          "404": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          },
+          "500": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          } 
+        }
+      }
+    }
+  },
+  "securityDefinitions": {},
+  "definitions": {
+    "create": {
+      "type": "object",
+      "properties": {
+        "email": { 
+          "type": "string",
+          "required": true 
+        },
+        "givenName": { "type": "string" },
+        "familyName": { "type": "string" }
+      }
+    },
+    "update": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "givenName": { "type": "string" },
+        "familyName": { "type": "string" }
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "email": { "type": "string" },
+        "givenName": { "type": "string" },
+        "familyName": { "type": "string" },
+        "created": { "type": "string" }
+      }
+    },
+    "successfulResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Successfully Inserted"
+        }
+      }
+    },
+    "errorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Technical Error"
+        },
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": 500
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Github Repository",
+    "url": "https://github.com/webmanic/hotelexpress"
+  }
+}

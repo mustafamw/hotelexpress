@@ -13,11 +13,12 @@
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
-    "@babel/register": "^7.5.5",
-    "express-swagger-generator": "^1.1.15"
+    "@babel/register": "^7.5.5"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "http-status-codes": "^1.3.2",
-    "mongodb": "^3.3.0"
+    "mongodb": "^3.3.0",
+    "swagger-ui-express": "^4.0.7"
   }
 }

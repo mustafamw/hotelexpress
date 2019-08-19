@@ -1,16 +1,13 @@
 const express = require('express');
 const app = express();
-const expressSwagger = require('express-swagger-generator')(app);
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger/swagger.json');
 
 import { MongoDB } from './mongodb/mongodb';
 import { routes } from './routes/routes';
-import { swaggerOption } from './swagger/swagger';
 
 MongoDB.connect();
-
-expressSwagger(swaggerOption);
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -18,7 +15,9 @@ app.use(bodyParser.urlencoded({
   
 app.use(bodyParser.json());
 
-app.use('/api', routes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use('/api/v1', routes);
 
 app.listen(3000);
 

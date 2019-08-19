@@ -22,7 +22,7 @@ export class UserDatabase {
         return new Promise((resolve, reject) => {
             let query = {};
             try {
-                query = { "_id": ObjectId(data.id) }
+                query = { "_id": ObjectId(data.id) };
             } catch (err) {
                 this.throwError(reject, "Incorrect ID", HttpStatus.BAD_REQUEST);
             }
@@ -32,7 +32,11 @@ export class UserDatabase {
             }
             this.dbo.collection(this.collectionName).updateOne(query, newvalues, (err, res) => {
                 if (err) this.throwError(reject, "Techinal Error", HttpStatus.INTERNAL_SERVER_ERROR);
-                resolve({ message: "Successfully Inserted" });
+                if(res.matchedCount && res.matchedCount > 0){
+                    resolve({ message: "Successfully Updated" });
+                    return;
+                }
+                this.throwError(reject, "Record Not Found", HttpStatus.NOT_FOUND);
             });
         });
     }
@@ -42,14 +46,19 @@ export class UserDatabase {
             let data = {};
             try {
                 if (query !== undefined && query !== null && Object.keys(query).length > 0) {
-                    data = { "_id": ObjectId(query.id) }
+                    data = { "_id": ObjectId(query.id) };
                 }
             } catch (err) {
                 this.throwError(reject, "Incorrect ID", HttpStatus.BAD_REQUEST);
             }
-            this.dbo.collection(this.collectionName).find(data).toArray((err, result) => {
+            this.dbo.collection(this.collectionName).find(data).toArray((err, res) => {
                 if (err) this.throwError(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
-                resolve(result);
+                if(res && res.length > 0){
+                    if(res.length == 1) resolve(res[0]);
+                    if(res.length > 1) resolve(res);
+                    return;
+                }
+                this.throwError(reject, "Record Not Found", HttpStatus.NOT_FOUND);
             });
         });
     }
@@ -59,14 +68,14 @@ export class UserDatabase {
             let data = {};
             try {
                 if (query !== undefined && query !== null && Object.keys(query).length > 0) {
-                    data = { "_id": ObjectId(query.id) }
+                    data = { "_id": ObjectId(query.id) };
                 }
             } catch (err) {
                 this.throwError(reject, "Incorrect ID", HttpStatus.BAD_REQUEST);
             }
-            this.dbo.collection(this.collectionName).deleteOne(data, (err, obj) => {
+            this.dbo.collection(this.collectionName).deleteOne(data, (err, res) => {
                 if (err) this.throwError(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
-                if(obj.deletedCount && obj.deletedCount > 0){
+                if(res.deletedCount && res.deletedCount > 0){
                     resolve({ message: "Record Deleted" });
                     return;
                 }
@@ -77,9 +86,9 @@ export class UserDatabase {
 
     delete() {
         return new Promise((resolve, reject) => {
-            this.dbo.collection(this.collectionName).drop((err, obj) => {
+            this.dbo.collection(this.collectionName).drop((err, res) => {
                 if (err) this.throwError(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
-                if (obj) resolve({ message: "All Record Deleted" });
+                if (res) resolve({ message: "All Record Deleted" });
                 this.throwError(reject, "Record Not Found", HttpStatus.NOT_FOUND);
             });
         });

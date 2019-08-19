@@ -1,15 +1,10 @@
-import { router } from '../route/route';
 import { UserDatabase } from '../../services/database/user';
 
-/**
- * This function comment is parsed by doctrine
- * @route POST /
- * @group Create - Create a user details
- * @returns {object} 200 - An array of user info
- * @returns {Error}  default - Unexpected error
- */
+const mapping = '/user';
 
-export const create = router.post('/create', (req, res) => {
+const router = require('express').Router();
+
+router.post(`${mapping}/create`, (req, res) => {
     const data = req.body;
     const userDatabase = new UserDatabase('user');
     userDatabase.insert(data)
@@ -21,7 +16,7 @@ export const create = router.post('/create', (req, res) => {
     });
 });
 
-export const update = router.put('/update', (req, res) => {
+router.put(`${mapping}/update`, (req, res) => {
     const data = req.body;
     const userDatabase = new UserDatabase('user');
     userDatabase.update(data)
@@ -34,7 +29,7 @@ export const update = router.put('/update', (req, res) => {
     });
 });
 
-export const list = router.get('/list', (req, res) => {
+router.get(`${mapping}/list`, (req, res) => {
     const userDatabase = new UserDatabase('user');
     userDatabase.find()
     .then((response) => {
@@ -46,11 +41,11 @@ export const list = router.get('/list', (req, res) => {
     });
 });
 
-export const listId = router.get('/list/:id', (req, res) => {
+router.get(`${mapping}/list/:id`, (req, res) => {
     const userDatabase = new UserDatabase('user');
     const data = {
         id: req.params.id
-    }
+    };
     userDatabase.find(data)
     .then((response) => {
         res.send(response);
@@ -61,22 +56,7 @@ export const listId = router.get('/list/:id', (req, res) => {
     });
 });
 
-export const deleteId = router.delete('/delete/:id', (req, res) => {
-    const userDatabase = new UserDatabase('user');
-    const data = {
-        id: req.params.id
-    }
-    userDatabase.deleteId(data)
-    .then((response) => {
-        res.send(response);
-    })
-    .catch((error) => {
-        res.statusCode = error.statusCode;
-        res.send(error);
-    });
-});
-
-export const drop = router.delete('/delete', (req, res) => {
+router.delete(`${mapping}/delete`, (req, res) => {
     const userDatabase = new UserDatabase('user');
     userDatabase.delete()
     .then((response) => {
@@ -87,3 +67,20 @@ export const drop = router.delete('/delete', (req, res) => {
         res.send(error);
     });
 });
+
+router.delete(`${mapping}/delete/:id`, (req, res) => {
+    const userDatabase = new UserDatabase('user');
+    const data = {
+        id: req.params.id
+    };
+    userDatabase.deleteId(data)
+    .then((response) => {
+        res.send(response);
+    })
+    .catch((error) => {
+        res.statusCode = error.statusCode;
+        res.send(error);
+    });
+});
+
+export const UserManagement = router;
