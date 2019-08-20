@@ -1,3 +1,3 @@
-import { UserManagement } from './user-management/user-management';
+import { User } from './user/user';
 
-export const routes = [UserManagement];
+export const routes = [User];

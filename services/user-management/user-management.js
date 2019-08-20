@@ -1,7 +1,7 @@
 import { MongoDB } from '../../mongodb/mongodb';
 const ObjectId = require('mongodb').ObjectId;
 const HttpStatus = require('http-status-codes');
-export class UserDatabase {
+export class UserManagement {
 
     constructor(collectionName) {
         this.collectionName = collectionName;

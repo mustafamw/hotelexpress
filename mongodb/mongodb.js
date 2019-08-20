@@ -8,9 +8,13 @@ const client = new MongoClient(config.mongodb.url, {
   useNewUrlParser: true
 });
 
-export const MongoDB  = {
-  db: {},
-  connect: () => {
+export class MongoDB {
+
+  constructor() {
+    this.db = {};
+  }
+
+  connect() {
     // Use connect method to connect to the Server
     client.connect((err) => {
       console.log('Mongodb Database Connected');

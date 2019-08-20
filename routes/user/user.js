@@ -1,4 +1,4 @@
-import { UserDatabase } from '../../services/database/user';
+import { UserManagement } from '../../services/user-management/user-management';
 
 const mapping = '/user';
 
@@ -6,7 +6,7 @@ const router = require('express').Router();
 
 router.post(`${mapping}/create`, (req, res) => {
     const data = req.body;
-    const userDatabase = new UserDatabase('user');
+    const userDatabase = new UserManagement('user');
     userDatabase.insert(data)
     .then((response) => {
         res.send(response);
@@ -18,7 +18,7 @@ router.post(`${mapping}/create`, (req, res) => {
 
 router.put(`${mapping}/update`, (req, res) => {
     const data = req.body;
-    const userDatabase = new UserDatabase('user');
+    const userDatabase = new UserManagement('user');
     userDatabase.update(data)
     .then((response) => {
         res.send(response);
@@ -30,7 +30,7 @@ router.put(`${mapping}/update`, (req, res) => {
 });
 
 router.get(`${mapping}/list`, (req, res) => {
-    const userDatabase = new UserDatabase('user');
+    const userDatabase = new UserManagement('user');
     userDatabase.find()
     .then((response) => {
         res.send(response);
@@ -42,7 +42,7 @@ router.get(`${mapping}/list`, (req, res) => {
 });
 
 router.get(`${mapping}/list/:id`, (req, res) => {
-    const userDatabase = new UserDatabase('user');
+    const userDatabase = new UserManagement('user');
     const data = {
         id: req.params.id
     };
@@ -57,7 +57,7 @@ router.get(`${mapping}/list/:id`, (req, res) => {
 });
 
 router.delete(`${mapping}/delete`, (req, res) => {
-    const userDatabase = new UserDatabase('user');
+    const userDatabase = new UserManagement('user');
     userDatabase.delete()
     .then((response) => {
         res.send(response);
@@ -69,7 +69,7 @@ router.delete(`${mapping}/delete`, (req, res) => {
 });
 
 router.delete(`${mapping}/delete/:id`, (req, res) => {
-    const userDatabase = new UserDatabase('user');
+    const userDatabase = new UserManagement('user');
     const data = {
         id: req.params.id
     };
@@ -83,4 +83,4 @@ router.delete(`${mapping}/delete/:id`, (req, res) => {
     });
 });
 
-export const UserManagement = router;
+export const User = router;

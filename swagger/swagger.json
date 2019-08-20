@@ -48,6 +48,9 @@
           "200": { 
             "schema": { "$ref": "#/definitions/successfulResponse" }
           },
+          "400": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          },
           "500": { 
             "schema": { "$ref": "#/definitions/errorResponse" }
           } 
@@ -118,7 +121,7 @@
         }
       }
     },
-    "/user/list/{id}": {
+    "/user/list/:id": {
       "get": {
         "tags": ["User"],
         "summary": "List ID of User detail",
@@ -219,21 +222,57 @@
       "type": "object",
       "properties": {
         "email": { 
-          "type": "string",
-          "required": true 
+          "type": "string", 
+          "format": "email",
+          "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$"
         },
-        "givenName": { "type": "string" },
-        "familyName": { "type": "string" }
-      }
+        "givenName": { 
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50 
+        },
+        "familyName": { 
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50  
+        }
+      },
+      "required": [
+        "email",
+        "givenName",
+        "familyName"
+      ]
     },
     "update": {
       "type": "object",
       "properties": {
-        "id": { "type": "string" },
-        "email": { "type": "string" },
-        "givenName": { "type": "string" },
-        "familyName": { "type": "string" }
-      }
+        "id": { 
+          "type": "string",          
+          "minLength": 1,
+          "maxLength": 50 
+        },
+        "email": { 
+          "type": "string",
+          "format": "email",
+          "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$" 
+        },
+        "givenName": { 
+          "type": "string",          
+          "minLength": 1,
+          "maxLength": 50  
+        },
+        "familyName": { 
+          "type": "string",          
+          "minLength": 1,
+          "maxLength": 50   
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "givenName",
+        "familyName"
+      ]
     },
     "user": {
       "type": "object",
