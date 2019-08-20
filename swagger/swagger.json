@@ -57,39 +57,6 @@
         }
       }
     },
-    "/user/update": {
-      "put": {
-        "tags": ["User"],
-        "summary": "Update a User detail",
-        "description": "",
-        "operationId": "updateUserDetail",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Create a User detail",
-            "required": true,
-            "schema": { "$ref": "#/definitions/update" }
-          }
-        ],
-        "responses": { 
-          "200": { 
-            "schema": { "$ref": "#/definitions/successfulResponse" }
-          }, 
-          "400": { 
-            "schema": { "$ref": "#/definitions/errorResponse" }
-          }, 
-          "404": { 
-            "schema": { "$ref": "#/definitions/errorResponse" }
-          }, 
-          "500": { 
-            "schema": { "$ref": "#/definitions/errorResponse" }
-          } 
-        }
-      }
-    },
     "/user/list": {
       "get": {
         "tags": ["User"],
@@ -121,7 +88,7 @@
         }
       }
     },
-    "/user/list/:id": {
+    "/user/list/{id}": {
       "get": {
         "tags": ["User"],
         "summary": "List ID of User detail",
@@ -151,6 +118,39 @@
           "404": { 
             "schema": { "$ref": "#/definitions/errorResponse" }
           },
+          "500": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          } 
+        }
+      }
+    },
+    "/user/update": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update a User detail",
+        "description": "",
+        "operationId": "updateUserDetail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create a User detail",
+            "required": true,
+            "schema": { "$ref": "#/definitions/update" }
+          }
+        ],
+        "responses": { 
+          "200": { 
+            "schema": { "$ref": "#/definitions/successfulResponse" }
+          }, 
+          "400": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          }, 
+          "404": { 
+            "schema": { "$ref": "#/definitions/errorResponse" }
+          }, 
           "500": { 
             "schema": { "$ref": "#/definitions/errorResponse" }
           } 
