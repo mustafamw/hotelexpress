@@ -5,8 +5,7 @@ export const config = {
         port: 3000
     },
     mongodb: {
-        url: 'mongodb://mongo:27017',
-        dbName: 'hotelexpress'
+        url: 'mongodb://localhost:27017/hotelexpress'
     },
     swagger: {
         path: '/api-docs'

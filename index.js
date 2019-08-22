@@ -6,12 +6,12 @@ const swaggerDocument = require('./swagger/swagger.json');
 const createMiddleware = require('swagger-express-middleware');
 const opn = require('opn');
 
-import { MongoDB } from './mongodb/mongodb';
+import { Mongoose } from './mongoose/mongoose';
 import { routes } from './routes/routes';
 import { config } from './config/config';
 
-const mongoDB = new MongoDB();
-mongoDB.connect();
+const mongoose = new Mongoose();
+mongoose.connect();
 
 createMiddleware('./swagger/swagger.json', app, function(err, middleware) {
 
@@ -35,7 +35,6 @@ createMiddleware('./swagger/swagger.json', app, function(err, middleware) {
     });
 
     app.listen(config.application.port,() => {
-        // opens the url in the default browser 
         opn(`${config.application.domain + config.swagger.path}`);
     });
 });

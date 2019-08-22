@@ -1,100 +1,118 @@
-import { MongoDB } from '../../mongodb/mongodb';
-const ObjectId = require('mongodb').ObjectId;
+import mongoose from 'mongoose';
+import { UserManagementSchema } from '../../mongoose/model/user-management-schema';
 const HttpStatus = require('http-status-codes');
-export class UserManagement {
 
-    constructor(collectionName) {
-        this.collectionName = collectionName;
-        this.dbo = MongoDB.db;
+const UserManagement = mongoose.model('user-management', UserManagementSchema);
+
+
+export class UserManagementService {
+
+    constructor() {
+
     }
 
     insert(data) {
-        data.created = new Date();
+
+        const userManagement = new UserManagement();
+        userManagement.email = data.email;
+        userManagement.givenName = data.givenName;
+        userManagement.familyName = data.familyName;
+
         return new Promise((resolve, reject) => {
-            this.dbo.collection(this.collectionName).insertOne(data, (err, res) => {
-                if (err) this.throwError(reject, "Techinal Error", HttpStatus.INTERNAL_SERVER_ERROR);
-                resolve({ message: "Successfully Inserted" });
+            userManagement.save((err) => {
+                if (err) {
+                    return this.rejected(reject, "Techinal Error", HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                return this.resolved(resolve, { message: "Successfully Inserted" });
             });
         });
     }
 
     update(data) {
         return new Promise((resolve, reject) => {
-            let query = {};
-            try {
-                query = { "_id": ObjectId(data.id) };
-            } catch (err) {
-                this.throwError(reject, "Incorrect ID", HttpStatus.BAD_REQUEST);
-            }
+            const query = this.query(data, reject);
             delete data.id;
-            const newvalues = {
-                $set: data
-            }
-            this.dbo.collection(this.collectionName).updateOne(query, newvalues, (err, res) => {
-                if (err) this.throwError(reject, "Techinal Error", HttpStatus.INTERNAL_SERVER_ERROR);
-                if(res.matchedCount && res.matchedCount > 0){
-                    resolve({ message: "Successfully Updated" });
-                    return;
+            const newValue = { 
+                $set: { 
+                    data
+                } 
+            };
+            UserManagement.findOneAndUpdate(query, newValue, (err, res) => {
+                if (err) {
+                    return this.rejected(reject, "Techinal Error", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-                this.throwError(reject, "Record Not Found", HttpStatus.NOT_FOUND);
+                if (res) {
+                    return this.resolved(resolve, { message: "Successfully Updated" });
+                }
+                return this.rejected(reject, "Record Not Found", HttpStatus.NOT_FOUND);
             });
         });
     }
 
-    find(query) {
+    find(data) {
         return new Promise((resolve, reject) => {
-            let data = {};
-            try {
-                if (query !== undefined && query !== null && Object.keys(query).length > 0) {
-                    data = { "_id": ObjectId(query.id) };
+            const query = this.query(data, reject);
+            UserManagement.find(query, (err, res) => {
+                if (err) {
+                    return this.rejected(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-            } catch (err) {
-                this.throwError(reject, "Incorrect ID", HttpStatus.BAD_REQUEST);
-            }
-            this.dbo.collection(this.collectionName).find(data).toArray((err, res) => {
-                if (err) this.throwError(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
-                if(res && res.length > 0){
-                    if(res.length == 1) resolve(res[0]);
-                    if(res.length > 1) resolve(res);
-                    return;
+                if (res && res.length > 0) {
+                    if (res.length == 1) {
+                        return this.resolved(resolve, res[0]);
+                    }
+                    if (res.length > 1) {
+                        return this.resolved(resolve, res);
+                    }
                 }
-                this.throwError(reject, "Record Not Found", HttpStatus.NOT_FOUND);
+                return this.rejected(reject, "Record Not Found", HttpStatus.NOT_FOUND);
             });
         });
     }
 
-    deleteId(query) {
+    delete(data) {
         return new Promise((resolve, reject) => {
-            let data = {};
-            try {
-                if (query !== undefined && query !== null && Object.keys(query).length > 0) {
-                    data = { "_id": ObjectId(query.id) };
+            const query = this.query(data, reject);
+            UserManagement.remove(query, (err, res) => {
+                if (err) {
+                    return this.rejected(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-            } catch (err) {
-                this.throwError(reject, "Incorrect ID", HttpStatus.BAD_REQUEST);
+                if (res) {
+                    if (res.deletedCount == 0) {
+                        return this.rejected(reject, "Record Not Found", HttpStatus.NOT_FOUND);
+                    }
+                    if (res.deletedCount > 0) {
+                        if(res.deletedCount == 1){
+                            return this.resolved(resolve, { message: "Record Deleted" });
+                        }else{
+                            return this.resolved(resolve, { message: "All Record Deleted" });
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    query(query, reject){
+        let data = {};
+        try {
+            if (query && query.id.length > 0 && !mongoose.Types.ObjectId.isValid(query.id)) {
+                throw Error;
             }
-            this.dbo.collection(this.collectionName).deleteOne(data, (err, res) => {
-                if (err) this.throwError(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
-                if(res.deletedCount && res.deletedCount > 0){
-                    resolve({ message: "Record Deleted" });
-                    return;
-                }
-                this.throwError(reject, "Record Not Found", HttpStatus.NOT_FOUND);
-            });
-        });
+            if (query !== undefined && query !== null && Object.keys(query).length > 0) {
+                data = { "_id": query.id };
+            }
+        } catch (err) {
+            return this.rejected(reject, "Incorrect ID", HttpStatus.BAD_REQUEST);
+        }
+        return data;
     }
 
-    delete() {
-        return new Promise((resolve, reject) => {
-            this.dbo.collection(this.collectionName).drop((err, res) => {
-                if (err) this.throwError(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
-                if (res) resolve({ message: "All Record Deleted" });
-                this.throwError(reject, "Record Not Found", HttpStatus.NOT_FOUND);
-            });
-        });
+    resolved(resolve, message) {
+        resolve(message);
+        return;
     }
 
-    throwError(reject, message, statusCode) {
+    rejected(reject, message, statusCode) {
         reject({
             message: message,
             statusCode: statusCode

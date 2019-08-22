@@ -91,14 +91,14 @@
     "/user/list/{id}": {
       "get": {
         "tags": ["User"],
-        "summary": "List ID of User detail",
+        "summary": "ID for the User detail",
         "description": "",
         "operationId": "listIdUserDetail",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "parameters": [
           {
-            "description": "ID of User Detail",
+            "description": "ID for the User Detail",
             "format": "string",
             "in": "path",
             "name": "id",
@@ -185,14 +185,14 @@
     "/user/delete/{id}": {
       "delete": {
         "tags": ["User"],
-        "summary": "Delete ID User detail",
+        "summary": "Delete ID for the User detail",
         "description": "",
         "operationId": "deleteIdUserDetail",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "parameters": [
           {
-            "description": "ID of User Detail",
+            "description": "ID for the User Detail",
             "format": "string",
             "in": "path",
             "name": "id",
@@ -224,17 +224,20 @@
         "email": { 
           "type": "string", 
           "format": "email",
-          "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$"
+          "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$",
+          "description": "Email Address"
         },
         "givenName": { 
           "type": "string",
           "minLength": 1,
-          "maxLength": 50 
+          "maxLength": 50,
+          "description": "First Name" 
         },
         "familyName": { 
           "type": "string",
           "minLength": 1,
-          "maxLength": 50  
+          "maxLength": 50,
+          "description": "Last Name"  
         }
       },
       "required": [
@@ -249,22 +252,26 @@
         "id": { 
           "type": "string",          
           "minLength": 1,
-          "maxLength": 50 
+          "maxLength": 50,
+          "description": "ID for the User Detail" 
         },
         "email": { 
           "type": "string",
           "format": "email",
-          "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$" 
+          "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$", 
+          "description": "Email Address" 
         },
         "givenName": { 
           "type": "string",          
           "minLength": 1,
-          "maxLength": 50  
+          "maxLength": 50,
+          "description": "First Name"   
         },
         "familyName": { 
           "type": "string",          
           "minLength": 1,
-          "maxLength": 50   
+          "maxLength": 50,
+          "description": "Last Name"      
         }
       },
       "required": [
@@ -278,12 +285,25 @@
       "type": "object",
       "properties": {
         "_id": {
-          "type": "string"
+          "type": "string",
+          "description": "ID for the User Detail" 
         },
-        "email": { "type": "string" },
-        "givenName": { "type": "string" },
-        "familyName": { "type": "string" },
-        "created": { "type": "string" }
+        "email": { 
+          "type": "string",
+          "description": "Email Address" 
+        },
+        "givenName": { 
+          "type": "string",
+          "description": "First Name"  
+        },
+        "familyName": { 
+          "type": "string",
+          "description": "Last Name"   
+        },
+        "created": { 
+          "type": "string",
+          "description": "Date Created"   
+        }
       }
     },
     "successfulResponse": {

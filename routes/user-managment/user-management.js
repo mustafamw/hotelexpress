@@ -1,24 +1,23 @@
-import { UserManagement } from '../../services/user-management/user-management';
+import { UserManagementService } from '../../services/user-management/user-management';
 
 const mapping = '/user';
-
 const router = require('express').Router();
+const userDatabase = new UserManagementService('user');
 
 router.post(`${mapping}/create`, (req, res) => {
     const data = req.body;
-    const userDatabase = new UserManagement('user');
     userDatabase.insert(data)
     .then((response) => {
         res.send(response);
     })
     .catch((error) => {
+        res.statusCode = error.statusCode;
         res.send(error);
     });
 });
 
 router.put(`${mapping}/update`, (req, res) => {
     const data = req.body;
-    const userDatabase = new UserManagement('user');
     userDatabase.update(data)
     .then((response) => {
         res.send(response);
@@ -30,7 +29,6 @@ router.put(`${mapping}/update`, (req, res) => {
 });
 
 router.get(`${mapping}/list`, (req, res) => {
-    const userDatabase = new UserManagement('user');
     userDatabase.find()
     .then((response) => {
         res.send(response);
@@ -42,7 +40,6 @@ router.get(`${mapping}/list`, (req, res) => {
 });
 
 router.get(`${mapping}/list/:id`, (req, res) => {
-    const userDatabase = new UserManagement('user');
     const data = {
         id: req.params.id
     };
@@ -57,7 +54,6 @@ router.get(`${mapping}/list/:id`, (req, res) => {
 });
 
 router.delete(`${mapping}/delete`, (req, res) => {
-    const userDatabase = new UserManagement('user');
     userDatabase.delete()
     .then((response) => {
         res.send(response);
@@ -69,11 +65,10 @@ router.delete(`${mapping}/delete`, (req, res) => {
 });
 
 router.delete(`${mapping}/delete/:id`, (req, res) => {
-    const userDatabase = new UserManagement('user');
     const data = {
         id: req.params.id
     };
-    userDatabase.deleteId(data)
+    userDatabase.delete(data)
     .then((response) => {
         res.send(response);
     })
@@ -83,4 +78,4 @@ router.delete(`${mapping}/delete/:id`, (req, res) => {
     });
 });
 
-export const User = router;
+export const UserManagement = router;
