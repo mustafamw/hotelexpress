@@ -17,7 +17,7 @@ const configs = {
     'production': {
         'application': {
             'name': 'hotelexpress',
-            'domain': 'http://localhost',
+            'domain': 'http://hushtech.co.uk',
             'port': 80
         },
         'mongodb': {
