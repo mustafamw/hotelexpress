@@ -2,18 +2,15 @@ import mongoose from 'mongoose';
 import { UserManagementSchema } from '../../mongoose/model/user-management-schema';
 const HttpStatus = require('http-status-codes');
 
-const UserManagement = mongoose.model('user-management', UserManagementSchema);
-
-
 export class UserManagementService {
 
     constructor() {
-
+        this.UserManagement =  mongoose.model('user-management', UserManagementSchema);
     }
 
     insert(data) {
 
-        const userManagement = new UserManagement();
+        const userManagement = new this.UserManagement();
         userManagement.email = data.email;
         userManagement.givenName = data.givenName;
         userManagement.familyName = data.familyName;
@@ -37,7 +34,7 @@ export class UserManagementService {
                     data
                 } 
             };
-            UserManagement.findOneAndUpdate(query, newValue, (err, res) => {
+            this.UserManagement.findOneAndUpdate(query, newValue, (err, res) => {
                 if (err) {
                     return this.rejected(reject, "Techinal Error", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
@@ -52,7 +49,7 @@ export class UserManagementService {
     find(data) {
         return new Promise((resolve, reject) => {
             const query = this.query(data, reject);
-            UserManagement.find(query, (err, res) => {
+            this.UserManagement.find(query, (err, res) => {
                 if (err) {
                     return this.rejected(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
@@ -72,7 +69,7 @@ export class UserManagementService {
     delete(data) {
         return new Promise((resolve, reject) => {
             const query = this.query(data, reject);
-            UserManagement.remove(query, (err, res) => {
+            this.UserManagement.remove(query, (err, res) => {
                 if (err) {
                     return this.rejected(reject, "Technical Error", HttpStatus.INTERNAL_SERVER_ERROR);
                 }

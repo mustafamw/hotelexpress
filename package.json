@@ -4,9 +4,10 @@
   "description": "Hotel Express Api Test",
   "main": "index.js",
   "scripts": {
-    "start": "npm install & nodemon --exec babel-node index.js",
+    "start": "npm install && set NODE_ENV=development && NODE_ENV=development nodemon --exec babel-node index.js",
     "debug": "nodemon --exec babel-node --inspect index.js",
-    "test": "babel-node spec/run.js"
+    "test": "babel-node spec/specs.js",
+    "test-cover": "istanbul cover jasmine --require babel-node ./spec/run.js"
   },
   "author": "Mustafa Mohamed",
   "license": "ISC",
@@ -15,7 +16,14 @@
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
-    "jasmine": "^3.4.0"
+    "esm": "^3.2.25",
+    "istanbul": "^0.4.5",
+    "jasmine": "^3.4.0",
+    "jasmine-console-reporter": "^3.1.0",
+    "jasmine-node": "^3.0.0",
+    "jasmine-supertest": "^1.0.0",
+    "mockingoose": "^2.13.2",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "express": "^4.17.1",
