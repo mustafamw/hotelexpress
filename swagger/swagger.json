@@ -11,7 +11,7 @@
       "url": ""
     }
   },
-  "host": "localhost:3000",
+  "host": "http://hushtech.co.uk",
   "basePath": "/api/v1",
   "tags": [
     {
