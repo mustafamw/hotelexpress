@@ -35,7 +35,7 @@ createMiddleware('./swagger/swagger.json', app, function(err, middleware) {
     });
 
     app.listen(config.application.port,() => {
-        //opn(`${config.application.domain + config.swagger.path}`);
+        opn(`${config.application.domain + config.swagger.path}`);
     });
 });
 
