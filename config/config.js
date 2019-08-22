@@ -1,5 +1,5 @@
 const environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
-console.log(environment)
+
 const configs = {
     development: {
         application: {
@@ -28,5 +28,5 @@ const configs = {
         }
     }
 };
-console.log(configs[environment]);
+
 export const config = configs[environment];
