@@ -2,9 +2,8 @@ version: "2"
 services:
   app:
     container_name: hotel-express-api-test
-    restart: always
     build: ./
-    restart: "no"
+    restart: no
     ports:
       - "3000:3000"
     volumes:
@@ -14,6 +13,6 @@ services:
   mongo:
     container_name: mongo
     image: mongo
-    restart: "no"
+    restart: no
     ports:
       - "27017:27017"
