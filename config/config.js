@@ -26,6 +26,19 @@ const configs = {
         'swagger': {
             'path': '/api-docs'
         }
+    },
+    'docker': {
+        'application': {
+            'name': 'hotelexpress',
+            'domain': 'localhost',
+            'port': 3000
+        },
+        'mongodb': {
+            'url': 'mongodb://mongo:27017/hotelexpress'
+        },
+        'swagger': {
+            'path': '/api-docs'
+        }
     }
 };
 
