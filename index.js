@@ -13,7 +13,13 @@ import { config } from './config/config';
 const mongoose = new Mongoose();
 mongoose.connect();
 
-createMiddleware('./swagger/swagger.json', app, function(err, middleware) {
+const domain = config.application.domain;
+const port = config.application.port !== 80 ? `:${config.application.port}` : '';
+if(config.application.domain){
+    swaggerDocument.host = `${domain}${port}`;
+}
+
+createMiddleware(swaggerDocument, app, (err, middleware) => {
 
     app.use(middleware.metadata());
     app.use(middleware.parseRequest());

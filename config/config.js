@@ -4,7 +4,7 @@ const configs = {
     'development': {
         'application': {
             'name': 'hotelexpress',
-            'domain': 'http://localhost:3000',
+            'domain': 'localhost',
             'port': 3000
         },
         'mongodb': {
@@ -17,7 +17,7 @@ const configs = {
     'production': {
         'application': {
             'name': 'hotelexpress',
-            'domain': 'http://hushtech.co.uk',
+            'domain': 'hushtech.co.uk',
             'port': 80
         },
         'mongodb': {
@@ -29,4 +29,4 @@ const configs = {
     }
 };
 
-export const config = configs[`${environment}`];
+export const config = configs[environment];

@@ -30,10 +30,9 @@ export class UserManagementService {
             const query = this.query(data, reject);
             delete data.id;
             const newValue = { 
-                $set: { 
-                    data
-                } 
+                $set: {}
             };
+            newValue.$set = data;
             this.UserManagement.findOneAndUpdate(query, newValue, (err, res) => {
                 if (err) {
                     return this.rejected(reject, "Techinal Error", HttpStatus.INTERNAL_SERVER_ERROR);
